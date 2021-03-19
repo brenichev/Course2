@@ -1,0 +1,11 @@
+C:\Users\breni\source\repos\EventsTest\EventsTest\bin\Debug\EventsTest.exe.config
+C:\Users\breni\source\repos\EventsTest\EventsTest\bin\Debug\EventsTest.exe
+C:\Users\breni\source\repos\EventsTest\EventsTest\bin\Debug\EventsTest.pdb
+C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.csprojAssemblyReference.cache
+C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.EditForm.resources
+C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.Properties.Resources.resources
+C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.csproj.GenerateResource.cache
+C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.csproj.CoreCompileInputs.cache
+C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.exe
+C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.pdb
+C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.EditForm1.resources
