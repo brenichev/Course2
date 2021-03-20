@@ -109,6 +109,20 @@ namespace EventsTest
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.DeleteButtonManager1 = new System.Windows.Forms.Button();
+            this.SaveButtonManager1 = new System.Windows.Forms.Button();
+            this.SaveButtonManager2 = new System.Windows.Forms.Button();
+            this.ManagerFIO1 = new System.Windows.Forms.TextBox();
+            this.ManagerAlias1 = new System.Windows.Forms.TextBox();
+            this.ManagerTypeCombo1 = new System.Windows.Forms.ComboBox();
+            this.ManagerLink1 = new System.Windows.Forms.TextBox();
+            this.ManagerDesc1 = new System.Windows.Forms.RichTextBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
             this.MainTables.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.EventsControl.SuspendLayout();
@@ -124,6 +138,8 @@ namespace EventsTest
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CostNumeric2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StageNumeric2)).BeginInit();
+            this.tabPage7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.SuspendLayout();
             // 
             // MainTables
@@ -421,7 +437,7 @@ namespace EventsTest
             // 
             this.EventName2.Location = new System.Drawing.Point(6, 304);
             this.EventName2.Name = "EventName2";
-            this.EventName2.Size = new System.Drawing.Size(100, 20);
+            this.EventName2.Size = new System.Drawing.Size(121, 20);
             this.EventName2.TabIndex = 8;
             // 
             // label7
@@ -959,6 +975,20 @@ namespace EventsTest
             // 
             // tabPage7
             // 
+            this.tabPage7.Controls.Add(this.label33);
+            this.tabPage7.Controls.Add(this.label32);
+            this.tabPage7.Controls.Add(this.label31);
+            this.tabPage7.Controls.Add(this.label30);
+            this.tabPage7.Controls.Add(this.label29);
+            this.tabPage7.Controls.Add(this.ManagerDesc1);
+            this.tabPage7.Controls.Add(this.ManagerLink1);
+            this.tabPage7.Controls.Add(this.ManagerTypeCombo1);
+            this.tabPage7.Controls.Add(this.ManagerAlias1);
+            this.tabPage7.Controls.Add(this.ManagerFIO1);
+            this.tabPage7.Controls.Add(this.SaveButtonManager2);
+            this.tabPage7.Controls.Add(this.SaveButtonManager1);
+            this.tabPage7.Controls.Add(this.DeleteButtonManager1);
+            this.tabPage7.Controls.Add(this.dataGridView3);
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
@@ -987,6 +1017,134 @@ namespace EventsTest
             this.tabPage9.Text = "Список участников";
             this.tabPage9.UseVisualStyleBackColor = true;
             // 
+            // dataGridView3
+            // 
+            this.dataGridView3.AllowUserToAddRows = false;
+            this.dataGridView3.AllowUserToDeleteRows = false;
+            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView3.Location = new System.Drawing.Point(6, 6);
+            this.dataGridView3.Name = "dataGridView3";
+            this.dataGridView3.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView3.Size = new System.Drawing.Size(780, 224);
+            this.dataGridView3.TabIndex = 0;
+            this.dataGridView3.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellClick);
+            // 
+            // DeleteButtonManager1
+            // 
+            this.DeleteButtonManager1.Location = new System.Drawing.Point(168, 236);
+            this.DeleteButtonManager1.Name = "DeleteButtonManager1";
+            this.DeleteButtonManager1.Size = new System.Drawing.Size(154, 38);
+            this.DeleteButtonManager1.TabIndex = 40;
+            this.DeleteButtonManager1.Text = "Удалить";
+            this.DeleteButtonManager1.UseVisualStyleBackColor = true;
+            this.DeleteButtonManager1.Click += new System.EventHandler(this.DeleteButtonManager1_Click);
+            // 
+            // SaveButtonManager1
+            // 
+            this.SaveButtonManager1.Location = new System.Drawing.Point(8, 236);
+            this.SaveButtonManager1.Name = "SaveButtonManager1";
+            this.SaveButtonManager1.Size = new System.Drawing.Size(154, 38);
+            this.SaveButtonManager1.TabIndex = 41;
+            this.SaveButtonManager1.Text = "Сохранить";
+            this.SaveButtonManager1.UseVisualStyleBackColor = true;
+            this.SaveButtonManager1.Click += new System.EventHandler(this.SaveButtonManager1_Click);
+            this.SaveButtonManager1.MouseLeave += new System.EventHandler(this.SaveButtonManager1_MouseLeave);
+            // 
+            // SaveButtonManager2
+            // 
+            this.SaveButtonManager2.Location = new System.Drawing.Point(328, 236);
+            this.SaveButtonManager2.Name = "SaveButtonManager2";
+            this.SaveButtonManager2.Size = new System.Drawing.Size(154, 38);
+            this.SaveButtonManager2.TabIndex = 42;
+            this.SaveButtonManager2.Text = "Обновить";
+            this.SaveButtonManager2.UseVisualStyleBackColor = true;
+            this.SaveButtonManager2.Click += new System.EventHandler(this.SaveButtonManager2_Click);
+            // 
+            // ManagerFIO1
+            // 
+            this.ManagerFIO1.Location = new System.Drawing.Point(8, 304);
+            this.ManagerFIO1.Name = "ManagerFIO1";
+            this.ManagerFIO1.Size = new System.Drawing.Size(136, 20);
+            this.ManagerFIO1.TabIndex = 43;
+            // 
+            // ManagerAlias1
+            // 
+            this.ManagerAlias1.Location = new System.Drawing.Point(6, 354);
+            this.ManagerAlias1.Name = "ManagerAlias1";
+            this.ManagerAlias1.Size = new System.Drawing.Size(138, 20);
+            this.ManagerAlias1.TabIndex = 44;
+            // 
+            // ManagerTypeCombo1
+            // 
+            this.ManagerTypeCombo1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.ManagerTypeCombo1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ManagerTypeCombo1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ManagerTypeCombo1.FormattingEnabled = true;
+            this.ManagerTypeCombo1.Location = new System.Drawing.Point(165, 304);
+            this.ManagerTypeCombo1.Name = "ManagerTypeCombo1";
+            this.ManagerTypeCombo1.Size = new System.Drawing.Size(138, 21);
+            this.ManagerTypeCombo1.TabIndex = 45;
+            // 
+            // ManagerLink1
+            // 
+            this.ManagerLink1.Location = new System.Drawing.Point(165, 354);
+            this.ManagerLink1.Name = "ManagerLink1";
+            this.ManagerLink1.Size = new System.Drawing.Size(138, 20);
+            this.ManagerLink1.TabIndex = 46;
+            // 
+            // ManagerDesc1
+            // 
+            this.ManagerDesc1.Location = new System.Drawing.Point(328, 303);
+            this.ManagerDesc1.Name = "ManagerDesc1";
+            this.ManagerDesc1.Size = new System.Drawing.Size(305, 80);
+            this.ManagerDesc1.TabIndex = 47;
+            this.ManagerDesc1.Text = "";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(8, 288);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(107, 13);
+            this.label29.TabIndex = 48;
+            this.label29.Text = "ФИО организатора";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(6, 338);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(138, 13);
+            this.label30.TabIndex = 49;
+            this.label30.Text = "Псевдоним организатора";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(165, 288);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(99, 13);
+            this.label31.TabIndex = 50;
+            this.label31.Text = "Тип организатора";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(162, 338);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(49, 13);
+            this.label32.TabIndex = 51;
+            this.label32.Text = "Ссылка ";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(325, 287);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(60, 13);
+            this.label33.TabIndex = 52;
+            this.label33.Text = "Описание ";
+            // 
             // EditForm1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1014,6 +1172,9 @@ namespace EventsTest
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CostNumeric2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StageNumeric2)).EndInit();
+            this.tabPage7.ResumeLayout(false);
+            this.tabPage7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1100,5 +1261,19 @@ namespace EventsTest
         private System.Windows.Forms.TabPage tabPage7;
         private System.Windows.Forms.TabPage tabPage8;
         private System.Windows.Forms.TabPage tabPage9;
+        private System.Windows.Forms.Button SaveButtonManager2;
+        private System.Windows.Forms.Button SaveButtonManager1;
+        private System.Windows.Forms.Button DeleteButtonManager1;
+        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.RichTextBox ManagerDesc1;
+        private System.Windows.Forms.TextBox ManagerLink1;
+        private System.Windows.Forms.ComboBox ManagerTypeCombo1;
+        private System.Windows.Forms.TextBox ManagerAlias1;
+        private System.Windows.Forms.TextBox ManagerFIO1;
     }
 }

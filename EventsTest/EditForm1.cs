@@ -23,8 +23,10 @@ namespace EventsTest
         }
         private string EventId;
         private string StageId;
+        private string ManagerId;
         private string EventSql = "SELECT idEvents, EventName, EventTypes.EventType, Ages.Age, EventForms.EventForm, EventLink, EventDesc FROM Events JOIN EventTypes ON Typeid = idType JOIN Ages ON Events.Ageid = Ages.idAge JOIN EventForms ON Events.Formid = EventForms.idForm";
         private string StagesSql = "SELECT idStage, StageNumber, Events.EventName, StageName, Adresses.Adress, DateStart, DateFinish, StageCost, StageDesc, Managers.ManagerFIO FROM Stages JOIN Events ON EventId = idEvents JOIN Adresses ON AdressId = idAdress JOIN Managers ON ManagerId = idManager";
+        private string ManagersSql = "SELECT idManager, ManagerFIO, ManagerAlias, ManagerTypes.ManagerType, ManagerLink, ManagerDesc FROM Managers JOIN ManagerTypes ON ManagerTypeId = idManagerType";
 
         private void Savebutton1_Click(object sender, EventArgs e)
         {
@@ -51,7 +53,7 @@ namespace EventsTest
             Savebutton1.BackColor = Color.Transparent;
         }
 
-        private void FillTableEvents(DataGridView dataGrid, string sql)
+        private void FillTable(DataGridView dataGrid, string sql)
         {
             using (var cnn = new SqlConnection())
             {
@@ -73,7 +75,7 @@ namespace EventsTest
             }
         }
 
-        private void FillTableStages(DataGridView dataGrid, string sql)
+        /*private void FillTableStages(DataGridView dataGrid, string sql)
         {
             using (var cnn = new SqlConnection())
             {
@@ -93,11 +95,11 @@ namespace EventsTest
                     Close();
                 }
             }
-        }
+        }*/
 
         private void EventsControl_Click(object sender, EventArgs e)
         {
-            FillTableEvents(dataGridView1, EventSql);
+            FillTable(dataGridView1, EventSql);
             ComboLoad(TypeIdBox2, "EventTypes", "idType", "EventType");
             ComboLoad(AgeComboBox2, "Ages", "idAge", "Age");
             ComboLoad(FormComboBox2, "EventForms", "idForm", "EventForm");
@@ -116,7 +118,7 @@ namespace EventsTest
                     string sql = $"DELETE FROM Events WHERE idEvents = {EventId}";
                     SqlCommand cmd = new SqlCommand(sql, cnn);
                     cmd.ExecuteNonQuery();
-                    FillTableEvents(dataGridView1, EventSql);
+                    FillTable(dataGridView1, EventSql);
                 }
                 catch
                 {
@@ -133,6 +135,11 @@ namespace EventsTest
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             FillTextBoxesStages();
+        }
+
+        private void dataGridView3_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            FillTextBoxesManagers();
         }
 
         private void FillTextBoxesEvents()
@@ -167,11 +174,6 @@ namespace EventsTest
 
         private void FillTextBoxesStages()
         {
-            /*',{EventsComboBox1.SelectedIndex + 1},'{ StageName1.Text}
-            ',{},'{ dateTimeStart1.Value}
-            ','{ dateTimeFinish1.Value}
-            ',{CostNumeric1.Value},'{ StageDesc1.Text}
-            ',{ManagerComboBox1.SelectedValue}*/
             StageId = dataGridView2.SelectedRows[0].Cells[0].Value.ToString();
             StageNumeric2.Value = (int)dataGridView2.SelectedRows[0].Cells[1].Value;
             EventsComboBox2.SelectedIndex = EventsComboBox2.FindString(dataGridView2.SelectedRows[0].Cells[2].Value.ToString());
@@ -182,30 +184,16 @@ namespace EventsTest
             CostNumeric2.Value = int.Parse(dataGridView2.SelectedRows[0].Cells[7].Value.ToString());
             StageDesc2.Text = dataGridView2.SelectedRows[0].Cells[8].Value.ToString();
             ManagerComboBox2.SelectedValue = ManagerComboBox2.FindString(dataGridView2.SelectedRows[0].Cells[9].Value.ToString())+ 1;
-            /*using (var cnn = new SqlConnection())
-            {
-                cnn.ConnectionString = Form1.connectionString;
-                cnn.Open();
-                string sql = $"SELECT Typeid, Ageid, Formid FROM Events WHERE idEvents = {EventId}";
-                SqlCommand cmd = new SqlCommand(sql, cnn);
-                using (DbDataReader reader = cmd.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            TypeIdBox2.SelectedIndex = (int)reader.GetValue(0) - 1;
-                            AgeComboBox2.SelectedIndex = (int)reader.GetValue(1) - 1;
-                            FormComboBox2.SelectedIndex = (int)reader.GetValue(2) - 1;
-                        }
-                    }
-                }
-            }
-            //TypeIdBox2.SelectedIndex = 1;
-            //AgeComboBox2.SelectedIndex = (int)dataGridView1.SelectedRows[0].Cells[3].Value;
-            //FormComboBox2.SelectedIndex = (int)dataGridView1.SelectedRows[0].Cells[4].Value;
-            EventLink2.Text = dataGridView1.SelectedRows[0].Cells[5].Value.ToString();
-            EventDesc2.Text = dataGridView1.SelectedRows[0].Cells[6].Value.ToString();*/
+        }
+
+        private void FillTextBoxesManagers()
+        {
+            ManagerId = dataGridView3.SelectedRows[0].Cells[0].Value.ToString();
+            ManagerFIO1.Text = dataGridView3.SelectedRows[0].Cells[1].Value.ToString();
+            ManagerAlias1.Text = dataGridView3.SelectedRows[0].Cells[2].Value.ToString();
+            ManagerTypeCombo1.SelectedIndex = ManagerTypeCombo1.FindString(dataGridView3.SelectedRows[0].Cells[3].Value.ToString());
+            ManagerLink1.Text = dataGridView3.SelectedRows[0].Cells[4].Value.ToString();
+            ManagerDesc1.Text = dataGridView3.SelectedRows[0].Cells[5].Value.ToString();
         }
 
         private void SaveButton2_Click(object sender, EventArgs e)
@@ -219,7 +207,7 @@ namespace EventsTest
                     string sql = $"UPDATE Events SET EventName = '{EventName2.Text}', Typeid = {TypeIdBox2.SelectedIndex + 1}, Ageid = {AgeComboBox2.SelectedIndex + 1}, Formid = {FormComboBox2.SelectedIndex + 1}, EventLink = '{EventLink2.Text}', EventDesc = '{EventDesc2.Text}' WHERE idEvents = {EventId};";
                     SqlCommand cmd = new SqlCommand(sql, cnn);
                     cmd.ExecuteNonQuery();
-                    FillTableEvents(dataGridView1, EventSql);
+                    FillTable(dataGridView1, EventSql);
                     FillTextBoxesEvents();
                 }
                 catch
@@ -298,7 +286,7 @@ namespace EventsTest
                     ComboLoad(EventsComboBox1, "Events", "idEvents", "EventName");
                     ComboLoad(AdressComboBox1, "Adresses", "idAdress", "Adress");
                     ComboLoad(ManagerComboBox1, "Managers", "idMAnager", "ManagerFIO");
-                    FillTableStages(dataGridView2, StagesSql);
+                    FillTable(dataGridView2, StagesSql);
                     break;
                 case 2:
 
@@ -314,7 +302,7 @@ namespace EventsTest
                     ComboLoad(EventsComboBox1, "Events", "idEvents", "EventName");
                     ComboLoad(AdressComboBox1, "Adresses", "idAdress", "Adress");
                     ComboLoad(ManagerComboBox1, "Managers", "idMAnager", "ManagerFIO");
-                    FillTableStages(dataGridView2, StagesSql);
+                    FillTable(dataGridView2, StagesSql);
                     break;
                 case 2:
 
@@ -377,7 +365,7 @@ namespace EventsTest
                     string sql = $"UPDATE Events SET StageNumber = '{StageNumeric1.Value}', EventId = {EventsComboBox1.SelectedValue}, StageName = '{StageName1.Text}', AdressId = {AdressComboBox1.SelectedValue}, DateStart = '{dateTimeStart1.Value}', DateFinish = '{dateTimeFinish1.Value}', StageCost = {CostNumeric1.Value}, StageDesc = '{StageDesc1.Text}', ManagerId = {ManagerComboBox1.SelectedValue} WHERE idStage = {StageId};";
                     SqlCommand cmd = new SqlCommand(sql, cnn);
                     cmd.ExecuteNonQuery();
-                    FillTableEvents(dataGridView2, EventSql);
+                    FillTable(dataGridView2, EventSql);
                     FillTextBoxesEvents();
                 }
                 catch
@@ -395,11 +383,11 @@ namespace EventsTest
                 cnn.Open();
                 try
                 {
-                    StageId = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
-                    string sql = $"DELETE FROM Events WHERE idEvents = {StageId}";
+                    StageId = dataGridView2.SelectedRows[0].Cells[0].Value.ToString();
+                    string sql = $"DELETE FROM Stages WHERE idStage = {StageId}";
                     SqlCommand cmd = new SqlCommand(sql, cnn);
                     cmd.ExecuteNonQuery();
-                    FillTableEvents(dataGridView2, StagesSql);
+                    FillTable(dataGridView2, StagesSql);
                 }
                 catch
                 {
@@ -423,7 +411,12 @@ namespace EventsTest
                     ComboLoad(EventsComboBox2, "Events", "idEvents", "EventName");
                     ComboLoad(AdressComboBox2, "Adresses", "idAdress", "Adress");
                     ComboLoad(ManagerComboBox2, "Managers", "idMAnager", "ManagerFIO");
-                    FillTableStages(dataGridView2, StagesSql);
+                    FillTable(dataGridView2, StagesSql);
+                    break;
+                case 2:
+                    ComboLoad(ManagerTypeCombo1, "ManagerTypes", "idManagerType", "ManagerType");
+
+                    FillTable(dataGridView3, ManagersSql);
                     break;
             }
         }
@@ -431,6 +424,74 @@ namespace EventsTest
         private void SaveButtonStages1_MouseLeave(object sender, EventArgs e)
         {
             Savebutton1.BackColor = Color.Transparent;
+        }
+
+        private void SaveButtonManager1_Click(object sender, EventArgs e)
+        {
+            using (var cnn = new SqlConnection())
+            {
+                cnn.ConnectionString = Form1.connectionString;
+                cnn.Open();
+                try
+                {
+                    string sql = $"INSERT INTO Managers VALUES('{ManagerFIO1.Text}','{ManagerAlias1.Text}',{ManagerTypeCombo1.SelectedValue},'{ManagerLink1.Text}','{ManagerDesc1.Text}');";
+                    SqlCommand cmd = new SqlCommand(sql, cnn);
+                    cmd.ExecuteNonQuery();
+                    SaveButtonStages1.BackColor = Color.Green;
+                }
+                catch
+                {
+                    MessageBox.Show("Не удалось сохранить данные", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            FillTable(dataGridView3, ManagersSql);
+        }
+
+        private void SaveButtonManager1_MouseLeave(object sender, EventArgs e)
+        {
+            Savebutton1.BackColor = Color.Transparent;
+        }
+
+        private void DeleteButtonManager1_Click(object sender, EventArgs e)
+        {
+            using (var cnn = new SqlConnection())
+            {
+                cnn.ConnectionString = Form1.connectionString;
+                cnn.Open();
+                try
+                {
+                    StageId = dataGridView3.SelectedRows[0].Cells[0].Value.ToString();
+                    string sql = $"DELETE FROM Managers WHERE idManager = {ManagerId}";
+                    SqlCommand cmd = new SqlCommand(sql, cnn);
+                    cmd.ExecuteNonQuery();
+                    FillTable(dataGridView3, ManagersSql);
+                }
+                catch
+                {
+                    MessageBox.Show("Не удалось загрузить данные таблицы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void SaveButtonManager2_Click(object sender, EventArgs e)
+        {
+            using (var cnn = new SqlConnection())
+            {
+                cnn.ConnectionString = Form1.connectionString;
+                cnn.Open();
+                try
+                {
+                    string sql = $"UPDATE Managers SET ManagerFIO = '{ManagerFIO1.Text}', ManagerAlias = '{ManagerAlias1.Text}', ManagerTypeId = {ManagerTypeCombo1.SelectedValue}, ManagerLink = '{ManagerLink1.Text}', ManagerDesc = '{ManagerDesc1.Text}' WHERE idManager = {ManagerId};";
+                    SqlCommand cmd = new SqlCommand(sql, cnn);
+                    cmd.ExecuteNonQuery();
+                    FillTable(dataGridView3, ManagersSql);
+                    FillTextBoxesManagers();
+                }
+                catch
+                {
+                    MessageBox.Show("Не удалось загрузить данные таблицы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         //Очистка полей после добавления нового значения
