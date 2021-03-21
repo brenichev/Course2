@@ -24,9 +24,13 @@ namespace EventsTest
         private string EventId;
         private string StageId;
         private string ManagerId;
+        private string MemberId;
+        private string ListId;
         private string EventSql = "SELECT idEvents, EventName, EventTypes.EventType, Ages.Age, EventForms.EventForm, EventLink, EventDesc FROM Events JOIN EventTypes ON Typeid = idType JOIN Ages ON Events.Ageid = Ages.idAge JOIN EventForms ON Events.Formid = EventForms.idForm";
         private string StagesSql = "SELECT idStage, StageNumber, Events.EventName, StageName, Adresses.Adress, DateStart, DateFinish, StageCost, StageDesc, Managers.ManagerFIO FROM Stages JOIN Events ON EventId = idEvents JOIN Adresses ON AdressId = idAdress JOIN Managers ON ManagerId = idManager";
         private string ManagersSql = "SELECT idManager, ManagerFIO, ManagerAlias, ManagerTypes.ManagerType, ManagerLink, ManagerDesc FROM Managers JOIN ManagerTypes ON ManagerTypeId = idManagerType";
+        private string MembersSql = "SELECT idMember, MemberFIO, MemberAlias, MemberTypes.MemberType, MemberLink, MemberDesc FROM Members JOIN MemberTypes ON MemberTypeId = idMemberType";
+        private string ListSql = "SELECT idPart, Stages.StageName, Members.MemberFIO FROM ParticipationList JOIN Stages ON StageId = idStage JOIN Members ON MemberId = idMember";
 
         private void Savebutton1_Click(object sender, EventArgs e)
         {
@@ -142,6 +146,17 @@ namespace EventsTest
             FillTextBoxesManagers();
         }
 
+        private void dataGridView4_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            FillTextBoxesMembers();
+        }
+
+        private void dataGridView5_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            FillTextBoxesList();
+        }
+
+
         private void FillTextBoxesEvents()
         {
             EventName2.Text = dataGridView1.SelectedRows[0].Cells[1].Value.ToString();
@@ -194,6 +209,23 @@ namespace EventsTest
             ManagerTypeCombo1.SelectedIndex = ManagerTypeCombo1.FindString(dataGridView3.SelectedRows[0].Cells[3].Value.ToString());
             ManagerLink1.Text = dataGridView3.SelectedRows[0].Cells[4].Value.ToString();
             ManagerDesc1.Text = dataGridView3.SelectedRows[0].Cells[5].Value.ToString();
+        }
+
+        private void FillTextBoxesMembers()
+        {
+            MemberId = dataGridView4.SelectedRows[0].Cells[0].Value.ToString();
+            MemberFIO1.Text = dataGridView4.SelectedRows[0].Cells[1].Value.ToString();
+            MemberAlias1.Text = dataGridView4.SelectedRows[0].Cells[2].Value.ToString();
+            MemberTypeCombo1.SelectedIndex = ManagerTypeCombo1.FindString(dataGridView3.SelectedRows[0].Cells[3].Value.ToString());
+            MemberLink1.Text = dataGridView4.SelectedRows[0].Cells[4].Value.ToString();
+            MemberDesc1.Text = dataGridView4.SelectedRows[0].Cells[5].Value.ToString();
+        }
+
+        private void FillTextBoxesList()
+        {
+            ListId = dataGridView5.SelectedRows[0].Cells[0].Value.ToString();
+            EventListCombo1.SelectedIndex = EventListCombo1.FindString(dataGridView5.SelectedRows[0].Cells[1].Value.ToString());
+            MemberListCombo1.SelectedIndex = MemberListCombo1.FindString(dataGridView5.SelectedRows[0].Cells[2].Value.ToString());
         }
 
         private void SaveButton2_Click(object sender, EventArgs e)
@@ -418,6 +450,16 @@ namespace EventsTest
 
                     FillTable(dataGridView3, ManagersSql);
                     break;
+                case 3:
+                    ComboLoad(MemberTypeCombo1, "MemberTypes", "idMemberType", "MemberType");
+                    FillTable(dataGridView4, MembersSql);
+                    break;
+
+                case 4:
+                    ComboLoad(EventListCombo1, "Stages", "idStage", "StageName");
+                    ComboLoad(MemberListCombo1, "Members", "idMember", "MemberFIO");
+                    FillTable(dataGridView5, ListSql);
+                    break;
             }
         }
 
@@ -460,7 +502,7 @@ namespace EventsTest
                 cnn.Open();
                 try
                 {
-                    StageId = dataGridView3.SelectedRows[0].Cells[0].Value.ToString();
+                    ManagerId = dataGridView3.SelectedRows[0].Cells[0].Value.ToString();
                     string sql = $"DELETE FROM Managers WHERE idManager = {ManagerId}";
                     SqlCommand cmd = new SqlCommand(sql, cnn);
                     cmd.ExecuteNonQuery();
@@ -473,7 +515,7 @@ namespace EventsTest
             }
         }
 
-        private void SaveButtonManager2_Click(object sender, EventArgs e)
+        private void UpdateButtonManager2_Click(object sender, EventArgs e)
         {
             using (var cnn = new SqlConnection())
             {
@@ -485,7 +527,7 @@ namespace EventsTest
                     SqlCommand cmd = new SqlCommand(sql, cnn);
                     cmd.ExecuteNonQuery();
                     FillTable(dataGridView3, ManagersSql);
-                    FillTextBoxesManagers();
+                    FillTextBoxesMembers();
                 }
                 catch
                 {
@@ -493,6 +535,108 @@ namespace EventsTest
                 }
             }
         }
+
+        private void SaveButtonMember1_Click(object sender, EventArgs e)
+        {
+            using (var cnn = new SqlConnection())
+            {
+                cnn.ConnectionString = Form1.connectionString;
+                cnn.Open();
+                try
+                {
+                    string sql = $"INSERT INTO Members VALUES('{MemberFIO1.Text}','{MemberAlias1.Text}',{MemberTypeCombo1.SelectedValue},'{MemberLink1.Text}','{MemberDesc1.Text}');";
+                    SqlCommand cmd = new SqlCommand(sql, cnn);
+                    cmd.ExecuteNonQuery();
+                    SaveButtonStages1.BackColor = Color.Green;
+                }
+                catch
+                {
+                    MessageBox.Show("Не удалось сохранить данные", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            FillTable(dataGridView4, MembersSql);
+        }
+
+
+
+        private void SaveButtonMember1_MouseLeave(object sender, EventArgs e)
+        {
+            Savebutton1.BackColor = Color.Transparent;
+        }
+
+        private void DeleteFromTable(DataGridView dataGrid, string Table, string idCol, string sqlFillData)
+        {
+            using (var cnn = new SqlConnection())
+            {
+                cnn.ConnectionString = Form1.connectionString;
+                cnn.Open();
+                try
+                {
+                    string Id = dataGrid.SelectedRows[0].Cells[0].Value.ToString();
+                    string sql = $"DELETE FROM {Table} WHERE {idCol} = {Id}";
+                    SqlCommand cmd = new SqlCommand(sql, cnn);
+                    cmd.ExecuteNonQuery();
+                    FillTable(dataGrid, sqlFillData);
+                }
+                catch
+                {
+                    MessageBox.Show("Не удалось загрузить данные таблицы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        private void DeleteButtonMember1_Click(object sender, EventArgs e)
+        {
+            DeleteFromTable(dataGridView4, "Members", "idMember", MembersSql);
+        }
+
+        //2 таблицы - 1ая мероприятия, по щелчку на мероприятие заполняется этапы + в комбо бокс тоже этапы этого мероприятия
+        private void SaveButtonList1_Click(object sender, EventArgs e)
+        {
+            using (var cnn = new SqlConnection())
+            {
+                cnn.ConnectionString = Form1.connectionString;
+                cnn.Open();
+                try
+                {
+                    string sql = $"INSERT INTO ParticipationList VALUES({EventListCombo1.SelectedValue},{MemberListCombo1.SelectedValue});";
+                    SqlCommand cmd = new SqlCommand(sql, cnn);
+                    cmd.ExecuteNonQuery();
+                    SaveButtonStages1.BackColor = Color.Green;
+                }
+                catch
+                {
+                    MessageBox.Show("Не удалось сохранить данные", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            FillTable(dataGridView5, ListSql);
+        }
+
+        private void DeleteButtonList1_Click(object sender, EventArgs e)
+        {
+            DeleteFromTable(dataGridView5, "ParticipationList", "idPart", ListSql);
+        }
+
+        private void UpdateButtonList1_Click(object sender, EventArgs e)
+        {
+            using (var cnn = new SqlConnection())
+            {
+                cnn.ConnectionString = Form1.connectionString;
+                cnn.Open();
+                try
+                {
+                    string sql = $"UPDATE ParticipationList SET StageId = {EventListCombo1.SelectedValue}, MemberId = {MemberListCombo1.SelectedValue}  WHERE idPart = {ListId};";
+                    SqlCommand cmd = new SqlCommand(sql, cnn);
+                    cmd.ExecuteNonQuery();
+                    FillTable(dataGridView5, ListSql);
+                    FillTextBoxesList();
+                }
+                catch
+                {
+                    MessageBox.Show("Не удалось загрузить данные таблицы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
 
         //Очистка полей после добавления нового значения
         //Проверка, существуют ли такие поля как номер этапа...
