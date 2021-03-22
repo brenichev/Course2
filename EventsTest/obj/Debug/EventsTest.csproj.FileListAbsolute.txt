@@ -9,3 +9,6 @@ C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.csproj.Co
 C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.exe
 C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.pdb
 C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.EditForm1.resources
+C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.ViewForm.resources
+C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.AuthorizationForm.resources
+C:\Users\breni\source\repos\EventsTest\EventsTest\obj\Debug\EventsTest.QueryForm.resources
