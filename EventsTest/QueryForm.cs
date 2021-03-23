@@ -47,5 +47,10 @@ namespace EventsTest
             s += FieldsComboBox.SelectedValue + " " + OperationComboBox.SelectedItem + " " + textBox1.Text;
             listBox1.Items.Add(s);
         }
+
+        private void ClearButton_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+        }
     }
 }

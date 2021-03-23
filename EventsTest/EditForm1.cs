@@ -198,7 +198,7 @@ namespace EventsTest
             dateTimeFinish2.Value = Convert.ToDateTime(dataGridView2.SelectedRows[0].Cells[6].Value);
             CostNumeric2.Value = int.Parse(dataGridView2.SelectedRows[0].Cells[7].Value.ToString());
             StageDesc2.Text = dataGridView2.SelectedRows[0].Cells[8].Value.ToString();
-            ManagerComboBox2.SelectedValue = ManagerComboBox2.FindString(dataGridView2.SelectedRows[0].Cells[9].Value.ToString())+ 1;
+            ManagerComboBox2.SelectedValue = ManagerComboBox2.FindString(dataGridView2.SelectedRows[0].Cells[9].Value.ToString()) + 1;
         }
 
         private void FillTextBoxesManagers()
@@ -291,23 +291,26 @@ namespace EventsTest
 
         private void SaveButtonStages1_Click(object sender, EventArgs e)
         {
-            using (var cnn = new SqlConnection())
-            {
-                cnn.ConnectionString = Form1.connectionString;
-                cnn.Open();
-                try
+            if (DateTime.Compare(dateTimeStart1.Value, dateTimeFinish1.Value) <= 0)
+                using (var cnn = new SqlConnection())
                 {
-                    // сменить ComboBox.SelectedIndex на поиск значения в бд |||| ValueMember и Display при загрузке "|||Очистка паока не используется -cboxHour.Items.Clear()
-                    string sql = $"INSERT INTO Stages VALUES('{StageNumeric1.Value}',{EventsComboBox1.SelectedIndex + 1},'{StageName1.Text}',{AdressComboBox1.SelectedValue},'{dateTimeStart1.Value}','{dateTimeFinish1.Value}',{CostNumeric1.Value},'{StageDesc1.Text}',{ManagerComboBox1.SelectedValue});";
-                    SqlCommand cmd = new SqlCommand(sql, cnn);
-                    cmd.ExecuteNonQuery();
-                    SaveButtonStages1.BackColor = Color.Green;
+                    cnn.ConnectionString = Form1.connectionString;
+                    cnn.Open();
+                    try
+                    {
+                        // сменить ComboBox.SelectedIndex на поиск значения в бд |||| ValueMember и Display при загрузке "|||Очистка паока не используется -cboxHour.Items.Clear()
+                        string sql = $"INSERT INTO Stages VALUES('{StageNumeric1.Value}',{EventsComboBox1.SelectedIndex + 1},'{StageName1.Text}',{AdressComboBox1.SelectedValue},'{dateTimeStart1.Value}','{dateTimeFinish1.Value}',{CostNumeric1.Value},'{StageDesc1.Text}',{ManagerComboBox1.SelectedValue});";
+                        SqlCommand cmd = new SqlCommand(sql, cnn);
+                        cmd.ExecuteNonQuery();
+                        SaveButtonStages1.BackColor = Color.Green;
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Не удалось сохранить данные", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                catch
-                {
-                    MessageBox.Show("Не удалось сохранить данные", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+            else
+                MessageBox.Show("Дата начала наступает позже, чем дата конца мероприятия", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -388,23 +391,26 @@ namespace EventsTest
 
         private void SaveButtonStages2_Click(object sender, EventArgs e)
         {
-            using (var cnn = new SqlConnection())
-            {
-                cnn.ConnectionString = Form1.connectionString;
-                cnn.Open();
-                try
+            if (DateTime.Compare(dateTimeStart2.Value, dateTimeFinish2.Value) <= 0)
+                using (var cnn = new SqlConnection())
                 {
-                    string sql = $"UPDATE Events SET StageNumber = '{StageNumeric1.Value}', EventId = {EventsComboBox1.SelectedValue}, StageName = '{StageName1.Text}', AdressId = {AdressComboBox1.SelectedValue}, DateStart = '{dateTimeStart1.Value}', DateFinish = '{dateTimeFinish1.Value}', StageCost = {CostNumeric1.Value}, StageDesc = '{StageDesc1.Text}', ManagerId = {ManagerComboBox1.SelectedValue} WHERE idStage = {StageId};";
-                    SqlCommand cmd = new SqlCommand(sql, cnn);
-                    cmd.ExecuteNonQuery();
-                    FillTable(dataGridView2, EventSql);
-                    FillTextBoxesEvents();
+                    cnn.ConnectionString = Form1.connectionString;
+                    cnn.Open();
+                    try
+                    {
+                        string sql = $"UPDATE Stages SET StageNumber = '{StageNumeric2.Value}', EventId = {EventsComboBox2.SelectedValue}, StageName = '{StageName2.Text}', AdressId = {AdressComboBox2.SelectedValue}, DateStart = '{dateTimeStart2.Value}', DateFinish = '{dateTimeFinish2.Value}', StageCost = {CostNumeric2.Value}, StageDesc = '{StageDesc2.Text}', ManagerId = {ManagerComboBox2.SelectedValue} WHERE idStage = {StageId};";
+                        SqlCommand cmd = new SqlCommand(sql, cnn);
+                        cmd.ExecuteNonQuery();
+                        FillTable(dataGridView2, StagesSql);
+                        FillTextBoxesStages();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Не удалось загрузить данные таблицы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                catch
-                {
-                    MessageBox.Show("Не удалось загрузить данные таблицы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+            else
+                MessageBox.Show("Дата начала наступает позже, чем дата конца мероприятия", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void DeleteButtonStages_Click(object sender, EventArgs e)

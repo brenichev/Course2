@@ -28,5 +28,11 @@ namespace EventsTest
             EditForm1 f3 = new EditForm1();
             f3.Show();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            QueryForm f4 = new QueryForm();
+            f4.Show();
+        }
     }
 }

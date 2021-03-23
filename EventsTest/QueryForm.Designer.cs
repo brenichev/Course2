@@ -42,6 +42,7 @@ namespace EventsTest
             this.listBox3 = new System.Windows.Forms.ListBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.ClearButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // AddButton
@@ -52,6 +53,7 @@ namespace EventsTest
             this.AddButton.TabIndex = 28;
             this.AddButton.Text = "Добавить условие";
             this.AddButton.UseVisualStyleBackColor = true;
+            this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
             // button1
             // 
@@ -160,11 +162,22 @@ namespace EventsTest
             this.button3.Text = "<-";
             this.button3.UseVisualStyleBackColor = true;
             // 
+            // ClearButton
+            // 
+            this.ClearButton.Location = new System.Drawing.Point(207, 396);
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(133, 28);
+            this.ClearButton.TabIndex = 34;
+            this.ClearButton.Text = "Очистить";
+            this.ClearButton.UseVisualStyleBackColor = true;
+            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
+            // 
             // QueryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.ClearButton);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.listBox3);
@@ -200,5 +213,6 @@ namespace EventsTest
         private System.Windows.Forms.ListBox listBox3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button ClearButton;
     }
 }
